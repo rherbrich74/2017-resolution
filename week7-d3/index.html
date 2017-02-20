@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Stoc Plot</title>
+		<script type="text/javascript" src="d3.v3.js"></script>
+
+		<style type="text/css">
+		
+			div.bar {
+				display: inline-block;
+				width: 0.4px;
+				height: 75px;	/* Gets overriden by D3-assigned height below */
+				margin-right: 0.1px;
+				background-color: teal;
+			}
+		
+		</style>
+    </head>
+    <body>
+		<!-- svg width="960" height="500"></svg -->
+        <script type="text/javascript">
+		data = [];
+		d3.csv("amzn.csv")
+			.row(function(d) {
+				day = new Date(d.date)
+				return {
+				    day: day,
+				    close: +d.close,
+				    volume: +d.volume,
+				    open: +d.open,
+				    high: +d.high,
+				    low: +d.low
+				  };
+			})
+			.get(function(error, rows) {
+				d3.select("body").selectAll("div")
+					.data(rows.map(function(d) { return d.low}))
+					.enter()
+					.append("div")
+					.attr("class", "bar")
+					.style("height", function(d) {
+						var barHeight = d;
+						return barHeight + "px";
+					});
+			})
+	
+
+		// Width and height
+//		var svg = d3.select("svg"),
+//		    margin = {top: 40, right: 10, bottom: 20, left: 10},
+//		    width = +svg.attr("width") - margin.left - margin.right,
+//		    height = +svg.attr("height") - margin.top - margin.bottom,
+//		    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+//		var x = d3.scale.linear()
+//		    .domain([d3.min(data, function(d) { return d.day; }),d3.max(data, function(d) { return d.day; })])
+//		    .range([0, width]);
+
+//		var y = d3.scale.linear()
+//		    .domain([0,d3.max(amzn)])
+//		    .range([height, 0]);			
+        </script>
+    </body>
+</html> 
